@@ -1,4 +1,29 @@
-const VERSION="1.0-BASE";
+const VERSION="1.0-CURADA";
+let soundOn=true;
+let audioCtx=null, musicTimer=null, musicStep=0;
+
+function startMusic(){
+ if(!soundOn || musicTimer)return;
+ try{
+  audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();
+  if(audioCtx.state==="suspended") audioCtx.resume();
+  const notes=[196,246.94,293.66,246.94,220,277.18,329.63,277.18];
+  const play=()=>{
+   if(!audioCtx||!soundOn)return;
+   const now=audioCtx.currentTime;
+   const o=audioCtx.createOscillator(),g=audioCtx.createGain();
+   o.type="sine"; o.frequency.value=notes[musicStep%notes.length];
+   g.gain.setValueAtTime(0.0001,now); g.gain.exponentialRampToValueAtTime(0.018,now+0.08); g.gain.exponentialRampToValueAtTime(0.0001,now+1.8);
+   o.connect(g).connect(audioCtx.destination); o.start(now); o.stop(now+1.9); musicStep++;
+  };
+  play(); musicTimer=setInterval(play,1900);
+ }catch(e){}
+}
+function stopMusic(){if(musicTimer){clearInterval(musicTimer);musicTimer=null;} }
+function toggleSound(){soundOn=!soundOn; if(soundOn)startMusic(); else stopMusic(); updateSoundButtons();}
+function updateSoundButtons(){document.querySelectorAll(".sound-toggle").forEach(b=>b.textContent=soundOn?"♫ SONIDO ON":"🔇 SONIDO OFF");}
+function goHome(){stopMusic();document.getElementById("story").classList.remove("active");document.getElementById("result").classList.remove("active");document.getElementById("home").classList.add("active");window.scrollTo({top:0,behavior:"smooth"});}
+
 const scenes=[
 {chapter:"CAPÍTULO I · LA PISTA",title:"La caja",text:"Tu abuelo dejó una caja de madera. No dice cuándo fue guardada. Adentro hay una fotografía, una hoja doblada y una pequeña llave. En el reverso de la foto alguien escribió: «Acá empezó todo».",clues:[["📷","LA FOTOGRAFÍA","Una chacra junto a una acequia. Al fondo, árboles jóvenes."],["📜","LA HOJA","Habla del agua, de la tierra y de gente que llegó para quedarse."],["🔑","LA LLAVE","No tiene fecha. Parece pertenecer a una antigua construcción."]],question:"¿Qué pista te conviene seguir primero para entender el comienzo?",answers:["La fotografía: muestra el territorio.","La hoja: explica qué estaba ocurriendo.","La llave: seguramente abre algo importante."],correct:1,fact:"La hoja reúne las pistas sobre agua, tierra y personas.",mission:"Abrí dos pistas y decidí por dónde empezar la investigación."},
 {chapter:"CAPÍTULO I · LA PISTA",title:"Una foto no cuenta todo",text:"El abuelo señala la fotografía. «Una imagen muestra algo, pero también esconde muchas cosas», dice. Mirás el cielo, el suelo, los árboles y el agua.",clues:[["☁️","EL CIELO","El clima también forma parte del contexto de un paisaje."],["🌳","LOS ÁRBOLES","Su presencia cambia la lectura de una zona que antes parecía solamente árida."],["💦","LA ACEQUIA","Una línea de agua junto a la producción puede revelar una intervención humana."]],question:"¿Qué conviene hacer antes de sacar una conclusión?",answers:["Observar varios elementos y compararlos.","Quedarse solamente con el objeto más llamativo.","Inventar lo que falta en la fotografía."],correct:0,fact:"Investigar empieza por observar, comparar y separar lo que vemos de lo que suponemos.",mission:"Aprendé a mirar una fotografía como una evidencia."},
@@ -18,6 +43,7 @@ let scene=0,opened=[],answered=false;
 
 function startGame(){
  scene=0;
+ startMusic();
  document.getElementById("home").classList.remove("active");
  document.getElementById("result").classList.remove("active");
  renderScene();
@@ -34,7 +60,7 @@ function renderScene(){
  el.className="screen active";
  el.innerHTML=`
  <div class="card">
-  <div class="top">VILLA PELÓN · ${scene+1} / ${scenes.length}</div>
+  <div class="top"><button class="mini-menu" type="button" onclick="goHome()">⌂ MENÚ</button><span>VILLA PELÓN · ${scene+1} / ${scenes.length}</span><button class="mini-menu sound-toggle" type="button" onclick="toggleSound()">♫ SONIDO ON</button></div>
   <div class="timeline">${scenes.map((_,i)=>`<i class="dot ${i<=scene?"on":""}"></i>`).join("")}</div>
   <div class="scene-art" aria-hidden="true">
    <div class="sun-orb"></div><div class="mountain mountain-a"></div><div class="mountain mountain-b"></div>
@@ -116,13 +142,13 @@ function finish(){
  r.innerHTML=`
  <div class="card result-card">
   <div class="chapter">🏁 INVESTIGACIÓN COMPLETADA</div>
-  <div class="score">3/3</div>
+  <div class="score">12/12</div>
   <h2 class="title">Ahora mirás el Chañar de otra manera.</h2>
   <p class="narrative">Villa Pelón es una puerta para investigar cómo un territorio guarda huellas de agua, tierra, producción y personas.</p>
   <div class="summary"><div><span>🔎 CAPÍTULOS</span><strong>6</strong></div><div><span>🧩 PISTAS</span><strong>12 mín.</strong></div></div>
   <div class="share-box"><strong>📲 COMPARTIR</strong><p>Mandá Villa Pelón a otra persona directamente por WhatsApp.</p><button class="primary share-btn" type="button" onclick="shareGame()">COMPARTIR POR WHATSAPP</button></div>
   <div class="credit"><small>JUEGO REALIZADO POR</small><strong>Ocarina Producciones</strong></div>
-  <button class="primary" type="button" onclick="startGame()">JUGAR DE NUEVO</button>
+  <button class="primary" type="button" onclick="startGame()">JUGAR DE NUEVO</button><button class="menu-back" type="button" onclick="goHome()">⌂ VOLVER AL MENÚ</button>
  </div>`;
 }
 
@@ -136,3 +162,5 @@ function shareGame(){
  window.open("https://wa.me/?text="+encodeURIComponent(text),"_blank","noopener");
 }
 window.shareGame=shareGame;
+window.toggleSound=toggleSound;
+window.goHome=goHome;
