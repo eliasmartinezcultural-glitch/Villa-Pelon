@@ -114,6 +114,8 @@ function finish(){
   <h2 class="title">Ahora mirás el Chañar de otra manera.</h2>
   <p class="narrative">Villa Pelón es una puerta para investigar cómo un territorio guarda huellas de agua, tierra, producción y personas.</p>
   <div class="summary"><div><span>🔎 CAPÍTULOS</span><strong>3</strong></div><div><span>🧩 PISTAS</span><strong>6 mín.</strong></div></div>
+  <div class="share-box"><strong>📲 COMPARTIR</strong><p>Mandá Villa Pelón a otra persona directamente por WhatsApp.</p><button class="primary share-btn" type="button" onclick="shareGame()">COMPARTIR POR WHATSAPP</button></div>
+  <div class="credit"><small>JUEGO REALIZADO POR</small><strong>Ocarina Producciones</strong></div>
   <button class="primary" type="button" onclick="startGame()">JUGAR DE NUEVO</button>
  </div>`;
 }
@@ -122,3 +124,9 @@ window.startGame=startGame;
 window.openClue=openClue;
 window.answer=answer;
 window.nextScene=nextScene;
+function shareGame(){
+ const url=window.location.href.split("?")[0];
+ const text="🌿 Villa Pelón · Una aventura del Chañar\n\nSeguí las huellas, descubrí las pistas y reconstruí una historia del territorio.\n\n🎮 Jugalo acá: "+url+"\n\nJuego realizado por Ocarina Producciones";
+ window.open("https://wa.me/?text="+encodeURIComponent(text),"_blank","noopener");
+}
+window.shareGame=shareGame;
