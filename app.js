@@ -1,1 +1,206 @@
-const scenes=[{chapter:"CAPÍTULO I · LA PISTA",title:"La caja",text:"Tu abuelo dejó una caja de madera. No dice cuándo fue guardada. Adentro hay una fotografía, una hoja doblada y una pequeña llave. En el reverso de la foto alguien escribió: «Acá empezó todo».",clues:[["📷","La fotografía","Una chacra junto a una acequia. Al fondo, árboles jóvenes."],["📜","La hoja","Habla del agua, de la tierra y de gente que llegó para quedarse."],["🔑","La llave","No tiene fecha. Parece pertenecer a una antigua construcción."]],question:"¿Qué pista te conviene seguir primero para entender el comienzo?",answers:["La fotografía: muestra el territorio.","La hoja: explica qué estaba ocurriendo.","La llave: seguramente abre algo importante."],correct:1}, {chapter:"CAPÍTULO II · EL TERRITORIO",title:"Agua",text:"La hoja cuenta que el territorio no se transformó de un día para otro. El agua permitió modificar el paisaje y desarrollar nuevas formas de producción. Pero todavía falta una pieza.",clues:[["🌊","El río","Una presencia constante detrás de la transformación del territorio."],["🌱","La tierra","Antes de ser paisaje productivo, era un territorio que había que conocer."],["🏘️","El pueblo","Las personas y sus actividades fueron dando forma a la comunidad."]],question:"¿Qué relación aparece con más claridad?",answers:["Río → agua → transformación del territorio.","Pueblo → edificios → río.","Tierra → ciudad → desaparición del agua."],correct:0},{chapter:"CAPÍTULO III · EL RASTRO",title:"¿Qué quedó?",text:"Volvés a mirar la fotografía. Ya no ves solamente una chacra. Ves una relación entre paisaje, agua, producción y personas. La historia de un pueblo también puede leerse en sus huellas.",clues:[["📸","La imagen","Una fotografía puede conservar una escena que ya cambió."],["👣","Las huellas","Lo que queda permite reconstruir lo que ocurrió."],["🗺️","El territorio","Los lugares también guardan memoria."]],question:"¿Qué acabás de hacer?",answers:["Resolver una investigación histórica breve.","Ganar una competencia contra otro pueblo.","Descubrir un tesoro escondido."],correct:0}];let scene=0,opened=[],answered=false;function startGame(){scene=0;renderScene()}function renderScene(){const s=scenes[scene];opened=[];answered=false;document.getElementById("home").classList.remove("active");document.getElementById("result").classList.remove("active");const el=document.getElementById("story");el.className="screen active";el.innerHTML='<div class="card"><div class="top">VILLA PELÓN · '+(scene+1)+' / '+scenes.length+'</div><div class="timeline">'+scenes.map((_,i)=>'<i class="dot '+(i<=scene?'on':'')+'"></i>').join('')+'</div><div class="chapter">'+s.chapter+'</div><h2 class="title">'+s.title+'</h2><p class="narrative">'+s.text+'</p><div class="cluegrid">'+s.clues.map((c,i)=>'<button class="clue" onclick="openClue('+i+',this)"><span>'+c[0]+'</span><strong>'+c[1]+'</strong><div class="evidence">'+c[2]+'</div></button>').join('')+'</div><div id="questionBox" style="display:none"><div class="question">'+s.question+'</div><div class="answers">'+s.answers.map((a,i)=>'<button class="answer" onclick="answer('+i+',this)">'+a+'</button>').join('')+'</div><div id="feedback" class="feedback"></div><button id="next" class="primary next" style="display:none" onclick="nextScene()">CONTINUAR →</button></div></div>'}function openClue(i,b){if(!opened.includes(i)){opened.push(i);b.classList.add("open");b.querySelector(".evidence").style.display="block"}if(opened.length>=2)document.getElementById("questionBox").style.display="block"}function answer(i,b){if(answered)return;answered=true;const s=scenes[scene];const ok=i===s.correct;b.classList.add(ok?"correct":"wrong");if(!ok)document.querySelectorAll(".answer")[s.correct].classList.add("correct");document.getElementById("feedback").textContent=ok?"La pista encaja. La historia empieza a tomar forma.":"No era esa. La evidencia más útil apunta a otra respuesta.";document.getElementById("next").style.display="block"}function nextScene(){if(scene<scenes.length-1)renderScene();else finish()}function finish(){document.getElementById("story").classList.remove("active");const r=document.getElementById("result");r.className="screen active";r.innerHTML='<div class="card" style="margin:auto"><div class="chapter">FIN · PRIMER RASTRO</div><h2 class="title">Ahora mirás el Chañar de otra manera.</h2><p class="narrative">Villa Pelón no es solamente un nombre dentro de un juego. Es una puerta para investigar cómo un territorio se transforma a través del agua, la tierra, el trabajo y las personas.</p><button class="primary" onclick="startGame()">JUGAR DE NUEVO</button></div>'}
+const chapters = [
+  {
+    era: "ANTES DEL PUEBLO",
+    title: "El territorio no habla solo",
+    text: "La caja guarda tres rastros. No alcanza con mirar: hay que relacionarlos. Tu abuelo dejó una regla escrita: «Primero encontrá qué cambió. Después preguntá por qué».",
+    evidence: [
+      ["🌊","EL AGUA","El río Neuquén y las obras de regulación hicieron posible transformar el territorio."],
+      ["🌾","LA TIERRA","Las tierras fueron parceladas y destinadas progresivamente a chacras productivas."],
+      ["🧭","EL RASTRO","Una fotografía puede mostrar un momento, pero no explica por sí sola cómo se llegó hasta allí."]
+    ],
+    question: "Si querés explicar el cambio del territorio, ¿qué dos pistas deberías unir?",
+    answers: [
+      "Agua + tierra: el cambio se entiende por la relación entre ambas.",
+      "Fotografía + llave: todo comenzó con un objeto escondido.",
+      "Pueblo + fotografía: la imagen explica toda la transformación."
+    ],
+    correct: 0,
+    fact: "Entre 1966 y 1968 se sucedieron adquisiciones de tierras y, en 1968, comenzaron obras de sistematización de riego y la parcelación en chacras. Fuente: CFI / Argentina.gob.ar."
+  },
+  {
+    era: "1968 → 1973",
+    title: "Seguir la huella",
+    text: "Ahora aparece una fecha. 1968. El territorio empieza a cambiar con obras de riego, plantaciones y nuevas chacras. Pero una comunidad necesita algo más que producción.",
+    evidence: [
+      ["💧","SISTEMA DE RIEGO","En 1968 se concretó una concesión para regar 8.200 hectáreas."],
+      ["🍑","PLANTACIONES","En 1971 ya se habían plantado unas 500 hectáreas, según el documento consultado."],
+      ["🏘️","NÚCLEO URBANO","El desarrollo productivo generó la necesidad de un núcleo urbano para los trabajadores agrícolas."]
+    ],
+    question: "¿Qué cadena histórica encaja mejor con las pistas?",
+    answers: [
+      "Riego → producción → trabajadores → necesidad de un núcleo urbano.",
+      "Pueblo → río → desaparición de las chacras.",
+      "Plantaciones → abandono → ciudad."
+    ],
+    correct: 0,
+    fact: "El documento señala que en 1973 se creó la Comisión de Fomento de San Patricio del Chañar, en el contexto del desarrollo productivo y la necesidad de un núcleo urbano."
+  },
+  {
+    era: "1973",
+    title: "Nace una comunidad",
+    text: "Ya no estás siguiendo solamente una chacra. Estás siguiendo una transformación territorial. Hay agua, producción, trabajadores y una comunidad que necesita organizarse.",
+    evidence: [
+      ["📅","1973","Se crea la Comisión de Fomento de San Patricio del Chañar."],
+      ["👥","PERSONAS","El crecimiento productivo necesitó trabajadores y un lugar donde radicarse."],
+      ["🗺️","TERRITORIO","El paisaje rural y el núcleo urbano forman parte de una misma historia territorial."]
+    ],
+    question: "Tu abuelo te pregunta: «¿Qué hace que esto sea historia y no solamente una colección de fechas?»",
+    answers: [
+      "Que podemos conectar cambios, lugares, personas y documentos.",
+      "Que una fecha siempre explica todo por sí sola.",
+      "Que una fotografía antigua vale más que cualquier documento."
+    ],
+    correct: 0,
+    fact: "La historia territorial se reconstruye conectando evidencias. En este juego, las relaciones son una mecánica: no se trata solo de memorizar fechas."
+  },
+  {
+    era: "INVESTIGACIÓN",
+    title: "El último rastro",
+    text: "Volvés a abrir la caja. Ahora entendés la frase del reverso: «Acá empezó todo». No señalaba un único lugar. Señalaba una cadena de transformaciones.",
+    evidence: [
+      ["🌊","AGUA","Una condición material para transformar el territorio."],
+      ["🌾","PRODUCCIÓN","Las chacras y plantaciones modificaron el paisaje y la economía local."],
+      ["👣","COMUNIDAD","Las personas dieron forma a una nueva etapa del territorio."]
+    ],
+    question: "¿Cuál es tu reconstrucción final?",
+    answers: [
+      "Agua + producción + personas: una transformación territorial.",
+      "Una llave perdida explica por sí sola el origen del pueblo.",
+      "La fotografía demuestra exactamente todo lo ocurrido."
+    ],
+    correct: 0,
+    fact: "La reconstrucción del juego se apoya en documentación pública sobre la transformación territorial de San Patricio del Chañar."
+  }
+];
+
+let chapter = 0;
+let opened = [];
+let answered = false;
+let score = 0;
+let discoveries = [];
+
+function startGame() {
+  chapter = 0;
+  score = 0;
+  discoveries = [];
+  renderChapter();
+}
+
+function renderChapter() {
+  const c = chapters[chapter];
+  opened = [];
+  answered = false;
+
+  document.getElementById("home").classList.remove("active");
+  document.getElementById("result").classList.remove("active");
+
+  const story = document.getElementById("story");
+  story.className = "screen active";
+  story.innerHTML = `
+    <div class="card">
+      <div class="top"><span>VILLA PELÓN</span><span>INVESTIGACIÓN ${chapter + 1}/${chapters.length}</span></div>
+      <div class="timeline">${chapters.map((_, i) => `<i class="dot ${i <= chapter ? "on" : ""}"></i>`).join("")}</div>
+
+      <div class="era">${c.era}</div>
+      <h2 class="title">${c.title}</h2>
+      <p class="narrative">${c.text}</p>
+
+      <div class="mission"><span>OBJETIVO</span><strong>Inspeccioná al menos 2 rastros y encontrá la relación.</strong></div>
+
+      <div class="evidence-grid">
+        ${c.evidence.map((e, i) => `
+          <button class="evidence-card" onclick="inspectEvidence(${i},this)">
+            <span class="icon">${e[0]}</span>
+            <span class="evidence-name">${e[1]}</span>
+            <span class="evidence-text">${e[2]}</span>
+            <span class="inspect">INSPECCIONAR</span>
+          </button>`).join("")}
+      </div>
+
+      <div id="questionBox" class="question-box" style="display:none">
+        <div class="question-label">DECISIÓN DE INVESTIGACIÓN</div>
+        <div class="question">${c.question}</div>
+        <div class="answers">
+          ${c.answers.map((a, i) => `<button class="answer" onclick="answer(${i},this)">${a}</button>`).join("")}
+        </div>
+        <div id="feedback" class="feedback"></div>
+        <button id="next" class="primary next" style="display:none" onclick="nextChapter()">CONTINUAR →</button>
+      </div>
+
+      <div class="journal">
+        <span>CUADERNO</span>
+        <strong id="journalCount">0 descubrimientos</strong>
+      </div>
+    </div>`;
+}
+
+function inspectEvidence(i, button) {
+  if (!opened.includes(i)) {
+    opened.push(i);
+    discoveries.push(chapters[chapter].evidence[i][1]);
+    button.classList.add("inspected");
+    button.querySelector(".inspect").textContent = "✓ RASTRO GUARDADO";
+    document.getElementById("journalCount").textContent =
+      discoveries.length + (discoveries.length === 1 ? " descubrimiento" : " descubrimientos");
+  }
+
+  if (opened.length >= 2) {
+    const q = document.getElementById("questionBox");
+    q.style.display = "block";
+    setTimeout(() => q.scrollIntoView({ behavior: "smooth", block: "start" }), 80);
+  }
+}
+
+function answer(index, button) {
+  if (answered) return;
+  answered = true;
+
+  const c = chapters[chapter];
+  const correct = index === c.correct;
+
+  if (correct) {
+    score++;
+    button.classList.add("correct");
+  } else {
+    button.classList.add("wrong");
+    document.querySelectorAll(".answer")[c.correct].classList.add("correct");
+  }
+
+  document.getElementById("feedback").innerHTML = `
+    <strong>${correct ? "RECONSTRUCCIÓN CORRECTA" : "PISTA CORREGIDA"}</strong>
+    <p>${c.fact}</p>`;
+  document.getElementById("next").style.display = "block";
+}
+
+function nextChapter() {
+  if (chapter < chapters.length - 1) {
+    chapter++;
+    renderChapter();
+  } else {
+    finishGame();
+  }
+}
+
+function finishGame() {
+  document.getElementById("story").classList.remove("active");
+  const result = document.getElementById("result");
+  result.className = "screen active";
+
+  const percentage = Math.round((score / chapters.length) * 100);
+  result.innerHTML = `
+    <div class="card result-card">
+      <div class="chapter">INVESTIGACIÓN COMPLETADA</div>
+      <div class="score">${score}/${chapters.length}</div>
+      <h2 class="title">El territorio dejó de ser paisaje.</h2>
+      <p class="narrative">Ahora podés leerlo como una historia: agua, tierra, producción, trabajo y comunidad conectados en el tiempo.</p>
+
+      <div class="summary">
+        <div><span>RASTROS ENCONTRADOS</span><strong>${discoveries.length}</strong></div>
+        <div><span>PRECISIÓN</span><strong>${percentage}%</strong></div>
+      </div>
+
+      <p class="source-note"><strong>Base histórica:</strong> documentación pública sobre la transformación territorial de San Patricio del Chañar. El juego separa la reconstrucción documentada de los elementos narrativos ficticios.</p>
+
+      <button class="primary" onclick="startGame()">VOLVER A INVESTIGAR</button>
+    </div>`;
+}
