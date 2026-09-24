@@ -50,4 +50,3 @@ function finishGame(){
 }
 window.VillaPelon={start:startGame,inspect:inspectEvidence,answer:answer,next:nextChapter};
 window.startGame=startGame;window.inspectEvidence=inspectEvidence;window.answer=answer;window.nextChapter=nextChapter;
-try{renderHomeReady&&renderHomeReady()}catch(e){}
