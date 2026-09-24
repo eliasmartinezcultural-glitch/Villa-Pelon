@@ -4,18 +4,33 @@ const scenes=[
 ["📷","LA FOTOGRAFÍA","Una chacra junto a una acequia. Al fondo, árboles jóvenes."],
 ["📜","LA HOJA","Habla del agua, de la tierra y de gente que llegó para quedarse."],
 ["🔑","LA LLAVE","No tiene fecha. Parece pertenecer a una antigua construcción."]
-],question:"¿Qué pista te conviene seguir primero para entender el comienzo?",answers:["La fotografía: muestra el territorio.","La hoja: explica qué estaba ocurriendo.","La llave: seguramente abre algo importante."],correct:1,fact:"La hoja reúne las pistas sobre agua, tierra y personas."},
+],question:"¿Qué pista te conviene seguir primero para entender el comienzo?",answers:["La fotografía: muestra el territorio.","La hoja: explica qué estaba ocurriendo.","La llave: seguramente abre algo importante."],correct:1,fact:"La hoja reúne las pistas sobre agua, tierra y personas.",mission:"Abrí dos pistas y decidí por dónde empezar la investigación."},
 {chapter:"CAPÍTULO II · EL TERRITORIO",title:"Agua",text:"La hoja cuenta que el territorio no se transformó de un día para otro. El agua permitió modificar el paisaje y desarrollar nuevas formas de producción. Pero todavía falta una pieza.",clues:[
 ["🌊","EL RÍO","Una presencia constante detrás de la transformación del territorio."],
 ["🌱","LA TIERRA","Antes de ser paisaje productivo, era un territorio que había que conocer."],
 ["🏘️","EL PUEBLO","Las personas y sus actividades fueron dando forma a la comunidad."]
-],question:"¿Qué relación aparece con más claridad?",answers:["Río → agua → transformación del territorio.","Pueblo → edificios → río.","Tierra → ciudad → desaparición del agua."],correct:0,fact:"El agua aparece como una pieza fundamental de la transformación del territorio."},
-{chapter:"CAPÍTULO III · EL RASTRO",title:"¿Qué quedó?",text:"Volvés a mirar la fotografía. Ya no ves solamente una chacra. Ves una relación entre paisaje, agua, producción y personas. La historia de un pueblo también puede leerse en sus huellas.",clues:[
+],question:"Encontrás tres elementos. ¿Cuál relación ayuda a explicar el cambio del territorio?",answers:["Río → agua → transformación del territorio.","Pueblo → edificios → río.","Tierra → ciudad → desaparición del agua."],correct:0,fact:"El agua aparece como una pieza fundamental de la transformación del territorio.",mission:"Relacioná agua, tierra y comunidad antes de seguir."},
+{chapter:"CAPÍTULO III · LAS HUELLAS",title:"¿Quién estuvo acá?",text:"Entre los papeles aparece una referencia a quienes ya conocían este territorio. La historia no comienza cuando aparecen las primeras chacras: antes hubo personas, recorridos y conocimientos.",clues:[
+["👣","LAS HUELLAS","Un rastro indica que alguien conocía el lugar antes de que cambiara el paisaje."],
+["🪶","LA MEMORIA","Los conocimientos sobre el territorio también forman parte de su historia."],
+["🏜️","EL PAISAJE","El desierto que vemos hoy guarda otras formas de vida y recorrido."]
+],question:"¿Qué deberías hacer con estas pistas?",answers:["Reconocer que el territorio tiene una historia anterior a la producción.","Ignorar lo anterior y mirar solamente las chacras.","Suponer que el paisaje siempre fue igual."],correct:0,fact:"Investigar un territorio exige mirar las historias que existían antes de su transformación productiva.",mission:"Reconstruí qué había antes de que cambiara el paisaje."},
+{chapter:"CAPÍTULO IV · LA TRANSFORMACIÓN",title:"Abrir el paso del agua",text:"La investigación avanza. Ahora aparece una decisión: el agua no solo está en el paisaje; también requiere trabajo, organización y conocimiento para llegar a donde hace falta.",clues:[
+["💧","EL CANAL","El agua puede ser conducida y organizada para transformar una zona."],
+["🛠️","EL TRABAJO","La transformación del territorio necesita personas que hagan posible cada paso."],
+["🌳","LA CHACRA","Donde antes había otro paisaje aparecen nuevas formas de producción."]
+],question:"Si tuvieras que explicar la transformación con una cadena, ¿cuál elegirías?",answers:["Agua + trabajo + conocimiento → producción.","Producción → desaparición del agua → territorio vacío.","Pueblo → árboles → río sin intervención humana."],correct:0,fact:"La transformación territorial combina recursos naturales, trabajo humano y conocimiento.",mission:"Armá la cadena que explica cómo el territorio empieza a cambiar."},
+{chapter:"CAPÍTULO V · LAS PERSONAS",title:"Un pueblo toma forma",text:"Ya no estás mirando solamente agua y tierra. Hay familias, trabajadores, productores, instituciones y vecinos. El territorio también cambia porque una comunidad se organiza.",clues:[
+["👨‍🌾","QUIENES PRODUCEN","La producción genera actividades, vínculos y nuevas necesidades."],
+["🏫","LA COMUNIDAD","Escuelas, familias e instituciones ayudan a construir vida colectiva."],
+["🤝","LOS VÍNCULOS","Un pueblo también se forma a partir de las relaciones entre sus habitantes."]
+],question:"¿Qué hace que una transformación territorial también sea una historia de comunidad?",answers:["Las personas crean vínculos y formas de vida alrededor del territorio.","Solo la cantidad de edificios construidos.","Que desaparezca toda actividad anterior."],correct:0,fact:"La historia de un pueblo no se explica solo por su paisaje: también por las personas y sus vínculos.",mission:"Descubrí cómo el territorio se convierte también en comunidad."},
+{chapter:"CAPÍTULO VI · EL RASTRO",title:"¿Qué quedó?",text:"Volvés a mirar la fotografía. Ahora reconocés mucho más: paisaje, agua, producción, memoria y personas. El abuelo sonríe. «¿Ves?», dice. «Un pueblo también se puede investigar leyendo sus huellas».",clues:[
 ["📸","LA IMAGEN","Una fotografía puede conservar una escena que ya cambió."],
-["👣","LAS HUELLAS","Lo que queda permite reconstruir lo que ocurrió."],
-["🗺️","EL TERRITORIO","Los lugares también guardan memoria."]
-],question:"¿Qué acabás de hacer?",answers:["Resolver una investigación histórica breve.","Ganar una competencia contra otro pueblo.","Descubrir un tesoro escondido."],correct:0,fact:"Acabás de reconstruir una pequeña historia usando pistas y evidencias."}
-];
+["🧩","LAS PIEZAS","Cada pista aislada cuenta poco; juntas permiten reconstruir una historia."],
+["🗺️","EL TERRITORIO","Los lugares también guardan memoria y pueden volver a ser interrogados."]
+],question:"¿Qué acabás de hacer?",answers:["Reconstruir una historia del territorio usando evidencias.","Ganar una competencia contra otro pueblo.","Descubrir un tesoro escondido."],correct:0,fact:"Acabás de conectar pistas, decisiones y contexto para reconstruir una historia.",mission:"Uní todas las piezas y cerrá la investigación."}
+]
 
 let scene=0,opened=[],answered=false;
 
@@ -44,7 +59,7 @@ function renderScene(){
   <p class="narrative">${s.text}</p>
   <div class="mission">
    <span>🎯 MISIÓN</span>
-   <strong>Encontrá 2 pistas para poder continuar.</strong>
+   <strong>${s.mission}</strong>
    <div class="case-status"><i id="caseFill"></i><span id="caseText">0/2 pistas</span></div>
   </div>
   <div class="evidence-grid">
@@ -64,6 +79,7 @@ function renderScene(){
    <button id="next" class="primary next" type="button" style="display:none" onclick="nextScene()">${scene<scenes.length-1?"SEGUIR LA HUELLA →":"TERMINAR LA INVESTIGACIÓN →"}</button>
   </div>
   <div class="journal"><span>📖 CUADERNO</span><strong id="journalCount">0 pistas</strong></div>
+  <div class="memory"><span>🧠 INVESTIGACIÓN</span><strong id="memoryText">Todavía no hay una conclusión registrada.</strong></div>
  </div>`;
 }
 
