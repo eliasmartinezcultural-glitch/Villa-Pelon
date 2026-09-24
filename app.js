@@ -1,4 +1,4 @@
-const VERSION="1.6";
+const VERSION="1.6.2";
 const chapters=[
 {era:"ANTES DEL PUEBLO",title:"El territorio no habla solo",text:"El abuelo abre una caja y sonríe: «Hoy vas a jugar a detective». Hay tres rastros. Tocá dos y descubrí qué historia esconden juntos.",evidence:[
 ["🌊","EL AGUA","El río Neuquén y las obras de regulación ayudaron a transformar el territorio.",["agua","territorio"]],
@@ -30,7 +30,7 @@ function renderChapter(){
  document.getElementById("home").classList.remove("active");document.getElementById("result").classList.remove("active");
  const story=document.getElementById("story");story.className="screen active";
  const memory=historyTags.length?historyTags.slice(-3).map(x=>"✨ "+x).join(" · "):"Todavía no hay pistas en tu memoria";
- story.innerHTML=`<div class="card"><div class="top"><span>VILLA PELÓN · V1.6</span><span>AVENTURA ${chapter+1}/${chapters.length}</span></div><div class="timeline">${chapters.map((_,i)=>`<i class="dot ${i<=chapter?"on":""}"></i>`).join("")}</div><div class="era">🌟 ${c.era}</div><h2 class="title">${c.title}</h2><p class="narrative">${c.text}</p><div class="memory"><span>🧠 LO QUE YA SABÉS</span><strong>${memory}</strong></div><div class="mission"><span>🎯 MISIÓN</span><strong>Encontrá 2 pistas y descubrí qué tienen en común.</strong><div class="case-status"><i id="caseFill"></i><span id="caseText">0/2 pistas</span></div></div><div class="evidence-grid">${c.evidence.map((e,i)=>`<button class="evidence-card" onclick="VillaPelon.inspect(${i},this)"><span class="icon">${e[0]}</span><span class="evidence-name">${e[1]}</span><span class="evidence-text">${e[2]}</span><span class="inspect">👀 MIRAR</span></button>`).join("")}</div><div id="questionBox" class="question-box" style="display:none"><div class="question-label">🕵️ TU ELECCIÓN</div><div class="question">${c.question}</div><div class="answers">${c.answers.map((a,i)=>`<button class="answer" onclick="VillaPelon.answer(${i},this)">${a}</button>`).join("")}</div><div id="feedback" class="feedback"></div><button id="next" class="primary next" style="display:none" id="next">${chapter<chapters.length-1?"SEGUIR LA HUELLA →":"CONTARLE LA HISTORIA →"}</button></div><div class="journal"><span>📖 CUADERNO</span><strong id="journalCount">${discoveries.length} pistas · ${connections} conexiones</strong></div></div>`
+ story.innerHTML=`<div class="card"><div class="top"><span>VILLA PELÓN · V1.6.2</span><span>AVENTURA ${chapter+1}/${chapters.length}</span></div><div class="timeline">${chapters.map((_,i)=>`<i class="dot ${i<=chapter?"on":""}"></i>`).join("")}</div><div class="era">🌟 ${c.era}</div><h2 class="title">${c.title}</h2><p class="narrative">${c.text}</p><div class="memory"><span>🧠 LO QUE YA SABÉS</span><strong>${memory}</strong></div><div class="mission"><span>🎯 MISIÓN</span><strong>Encontrá 2 pistas y descubrí qué tienen en común.</strong><div class="case-status"><i id="caseFill"></i><span id="caseText">0/2 pistas</span></div></div><div class="evidence-grid">${c.evidence.map((e,i)=>`<button class="evidence-card" onclick="inspectEvidence(${i},this)"><span class="icon">${e[0]}</span><span class="evidence-name">${e[1]}</span><span class="evidence-text">${e[2]}</span><span class="inspect">👀 MIRAR</span></button>`).join("")}</div><div id="questionBox" class="question-box" style="display:none"><div class="question-label">🕵️ TU ELECCIÓN</div><div class="question">${c.question}</div><div class="answers">${c.answers.map((a,i)=>`<button class="answer" onclick="answer(${i},this)">${a}</button>`).join("")}</div><div id="feedback" class="feedback"></div><button id="next" class="primary next" style="display:none" onclick="nextChapter()">${chapter<chapters.length-1?"SEGUIR LA HUELLA →":"CONTARLE LA HISTORIA →"}</button></div><div class="journal"><span>📖 CUADERNO</span><strong id="journalCount">${discoveries.length} pistas · ${connections} conexiones</strong></div></div>`
 }
 function inspectEvidence(i,b){
  if(!opened.includes(i)){opened.push(i);const e=chapters[chapter].evidence[i];discoveries.push(e[1]);e[3].forEach(t=>{if(!historyTags.includes(t))historyTags.push(t)});b.classList.add("inspected");b.querySelector(".inspect").textContent="✓ ¡ENCONTRADA!";document.getElementById("journalCount").textContent=discoveries.length+" pistas · "+connections+" conexiones";document.getElementById("caseFill").style.width=(opened.length/2*100)+"%";document.getElementById("caseText").textContent=opened.length+"/2 pistas"}
@@ -46,7 +46,21 @@ function nextChapter(){if(chapter<chapters.length-1){chapter++;renderChapter();w
 function finishGame(){
  chapter=chapters.length;document.getElementById("story").classList.remove("active");const result=document.getElementById("result");result.className="screen active";
  const percentage=Math.round(score/chapters.length*100);
- result.innerHTML=`<div class="card result-card"><div class="chapter">🏁 AVENTURA COMPLETADA · V1.6</div><div class="score">${score}/${chapters.length}</div><h2 class="title">${score===chapters.length?"¡Detective del Chañar!":"¡La historia dejó huellas!"}</h2><p class="narrative">Ahora podés mirar un territorio de otra manera: buscando pistas, haciendo preguntas y conectando historias.</p><div class="summary"><div><span>🔎 PISTAS</span><strong>${discoveries.length}</strong></div><div><span>⭐ ACIERTOS</span><strong>${percentage}%</strong></div><div><span>🔥 RACHA</span><strong>${best}</strong></div><div><span>🔗 CONEXIONES</span><strong>${connections}</strong></div></div><p class="source-note"><strong>Base histórica:</strong> documentación pública del Consejo Federal de Inversiones publicada en Argentina.gob.ar. El abuelo, la caja y las decisiones son recursos narrativos.</p><button class="primary" type="button" onclick="VillaPelon.start()">JUGAR OTRA VEZ</button></div>`
+ result.innerHTML=`<div class="card result-card"><div class="chapter">🏁 AVENTURA COMPLETADA · V1.6.2</div><div class="score">${score}/${chapters.length}</div><h2 class="title">${score===chapters.length?"¡Detective del Chañar!":"¡La historia dejó huellas!"}</h2><p class="narrative">Ahora podés mirar un territorio de otra manera: buscando pistas, haciendo preguntas y conectando historias.</p><div class="summary"><div><span>🔎 PISTAS</span><strong>${discoveries.length}</strong></div><div><span>⭐ ACIERTOS</span><strong>${percentage}%</strong></div><div><span>🔥 RACHA</span><strong>${best}</strong></div><div><span>🔗 CONEXIONES</span><strong>${connections}</strong></div></div><p class="source-note"><strong>Base histórica:</strong> documentación pública del Consejo Federal de Inversiones publicada en Argentina.gob.ar. El abuelo, la caja y las decisiones son recursos narrativos.</p><button class="primary" onclick="startGame()">JUGAR OTRA VEZ</button></div>`
 }
-window.VillaPelon={start:startGame,inspect:inspectEvidence,answer:answer,next:nextChapter};
-window.startGame=startGame;window.inspectEvidence=inspectEvidence;window.answer=answer;window.nextChapter=nextChapter;
+document.addEventListener("DOMContentLoaded",()=>{
+ const start=document.getElementById("startButton");
+ if(start)start.addEventListener("click",startGame);
+ document.getElementById("story").addEventListener("click",e=>{
+  const evidence=e.target.closest(".evidence-card");
+  if(evidence)inspectEvidence(Number(evidence.dataset.index),evidence);
+  const answerButton=e.target.closest(".answer");
+  if(answerButton)answer(Number(answerButton.dataset.index),answerButton);
+  const next=e.target.closest("#next");
+  if(next)nextChapter();
+ });
+ document.getElementById("result").addEventListener("click",e=>{
+  const again=e.target.closest("#restartButton");
+  if(again)startGame();
+ });
+});
