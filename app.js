@@ -36,6 +36,13 @@ function renderScene(){
  <div class="card">
   <div class="top">VILLA PELÓN · ${scene+1} / ${scenes.length}</div>
   <div class="timeline">${scenes.map((_,i)=>`<i class="dot ${i<=scene?"on":""}"></i>`).join("")}</div>
+  <div class="scene-art" aria-hidden="true">
+   <div class="sun-orb"></div><div class="mountain mountain-a"></div><div class="mountain mountain-b"></div>
+   <div class="river-line"></div><div class="tree tree-a"></div><div class="tree tree-b"></div>
+   <div class="character abuelo"><span class="head"></span><span class="body"></span><span class="hat"></span></div>
+   <div class="character nieta"><span class="head"></span><span class="body"></span><span class="hat"></span></div>
+   <span class="art-label">VILLA PELÓN · CUADERNO DE CAMPO</span>
+  </div>
   <div class="era">🌟 ${s.chapter}</div>
   <h2 class="title">${s.title}</h2>
   <p class="narrative">${s.text}</p>
