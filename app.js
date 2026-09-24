@@ -105,6 +105,7 @@ function answer(i,b){
  const ok=i===s.correct;
  b.classList.add(ok?"correct":"wrong");
  if(!ok)document.querySelectorAll(".answer")[s.correct].classList.add("correct");
+ document.getElementById("memoryText").textContent=s.fact;
  document.getElementById("feedback").innerHTML=ok
   ? "<strong>🎉 ¡LA PISTA ENCAJA!</strong><p>"+s.fact+"</p>"
   : "<strong>💡 CASI...</strong><p>"+s.fact+"</p><p>La evidencia correcta queda marcada para que puedas seguir.</p>";
@@ -129,7 +130,7 @@ function finish(){
   <div class="score">3/3</div>
   <h2 class="title">Ahora mirás el Chañar de otra manera.</h2>
   <p class="narrative">Villa Pelón es una puerta para investigar cómo un territorio guarda huellas de agua, tierra, producción y personas.</p>
-  <div class="summary"><div><span>🔎 CAPÍTULOS</span><strong>3</strong></div><div><span>🧩 PISTAS</span><strong>6 mín.</strong></div></div>
+  <div class="summary"><div><span>🔎 CAPÍTULOS</span><strong>6</strong></div><div><span>🧩 PISTAS</span><strong>12 mín.</strong></div></div>
   <div class="share-box"><strong>📲 COMPARTIR</strong><p>Mandá Villa Pelón a otra persona directamente por WhatsApp.</p><button class="primary share-btn" type="button" onclick="shareGame()">COMPARTIR POR WHATSAPP</button></div>
   <div class="credit"><small>JUEGO REALIZADO POR</small><strong>Ocarina Producciones</strong></div>
   <button class="primary" type="button" onclick="startGame()">JUGAR DE NUEVO</button>
