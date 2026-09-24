@@ -22,11 +22,11 @@ const chapters=[
 ],question:"¿Cuál es tu reconstrucción final?",answers:["🌊 Agua + 🌾 producción + 👣 personas","🔑 Una llave explica todo","🧭 Una fotografía demuestra todo lo ocurrido"],correct:0,fact:"La reconstrucción del juego toma como base documentación pública sobre la transformación territorial de San Patricio del Chañar."]
 }];
 
-let chapter=0,opened=[],answered=false,score=0,discoveries=[],streak=0,best=0,connections=0,historyTags=[];
-function startGame(){chapter=0;score=0;streak=0;best=0;connections=0;discoveries=[];historyTags=[];document.getElementById("home").classList.remove("active");document.getElementById("result").classList.remove("active");renderChapter()}
+let chapter=0,opened=[],answered=false,score=0,discoveries=[],streak=0,best=0,connections=0,historyTags=[],connected=false;
+function startGame(){chapter=0;score=0;streak=0;best=0;connections=0;discoveries=[];historyTags=[];connected=false;document.getElementById("home").classList.remove("active");document.getElementById("result").classList.remove("active");renderChapter();window.scrollTo({top:0,behavior:"smooth"})}
 function renderChapter(){
  if(!chapters[chapter])return finishGame();
- const c=chapters[chapter];opened=[];answered=false;
+ const c=chapters[chapter];opened=[];answered=false;connected=false;
  document.getElementById("home").classList.remove("active");document.getElementById("result").classList.remove("active");
  const story=document.getElementById("story");story.className="screen active";
  const memory=historyTags.length?historyTags.slice(-3).map(x=>"✨ "+x).join(" · "):"Todavía no hay pistas en tu memoria";
@@ -34,7 +34,7 @@ function renderChapter(){
 }
 function inspectEvidence(i,b){
  if(!opened.includes(i)){opened.push(i);const e=chapters[chapter].evidence[i];discoveries.push(e[1]);e[3].forEach(t=>{if(!historyTags.includes(t))historyTags.push(t)});b.classList.add("inspected");b.querySelector(".inspect").textContent="✓ ¡ENCONTRADA!";document.getElementById("journalCount").textContent=discoveries.length+" pistas · "+connections+" conexiones";document.getElementById("caseFill").style.width=(opened.length/2*100)+"%";document.getElementById("caseText").textContent=opened.length+"/2 pistas"}
- if(opened.length>=2){connections++;document.getElementById("journalCount").textContent=discoveries.length+" pistas · "+connections+" conexiones";const q=document.getElementById("questionBox");q.style.display="block";setTimeout(()=>q.scrollIntoView({behavior:"smooth",block:"start"}),60)}
+ if(opened.length>=2){if(!connected){connected=true;connections++;document.getElementById("journalCount").textContent=discoveries.length+" pistas · "+connections+" conexiones"}const q=document.getElementById("questionBox");q.style.display="block";setTimeout(()=>q.scrollIntoView({behavior:"smooth",block:"start"}),60)}
 }
 function answer(i,b){
  if(answered)return;answered=true;const c=chapters[chapter],correct=i===c.correct;
@@ -48,4 +48,19 @@ function finishGame(){
  const percentage=Math.round(score/chapters.length*100);
  result.innerHTML=`<div class="card result-card"><div class="chapter">🏁 AVENTURA COMPLETADA · V1.5</div><div class="score">${score}/${chapters.length}</div><h2 class="title">${score===chapters.length?"¡Detective del Chañar!":"¡La historia dejó huellas!"}</h2><p class="narrative">Ahora podés mirar un territorio de otra manera: buscando pistas, haciendo preguntas y conectando historias.</p><div class="summary"><div><span>🔎 PISTAS</span><strong>${discoveries.length}</strong></div><div><span>⭐ ACIERTOS</span><strong>${percentage}%</strong></div><div><span>🔥 RACHA</span><strong>${best}</strong></div><div><span>🔗 CONEXIONES</span><strong>${connections}</strong></div></div><p class="source-note"><strong>Base histórica:</strong> documentación pública del Consejo Federal de Inversiones publicada en Argentina.gob.ar. El abuelo, la caja y las decisiones son recursos narrativos.</p><button class="primary" onclick="startGame()">JUGAR OTRA VEZ</button></div>`
 }
-window.startGame=startGame;window.inspectEvidence=inspectEvidence;window.answer=answer;window.nextChapter=nextChapter;
+document.addEventListener("DOMContentLoaded",()=>{
+ const start=document.getElementById("startButton");
+ if(start)start.addEventListener("click",startGame);
+ document.getElementById("story").addEventListener("click",e=>{
+  const evidence=e.target.closest(".evidence-card");
+  if(evidence)inspectEvidence(Number(evidence.dataset.index),evidence);
+  const answerButton=e.target.closest(".answer");
+  if(answerButton)answer(Number(answerButton.dataset.index),answerButton);
+  const next=e.target.closest("#next");
+  if(next)nextChapter();
+ });
+ document.getElementById("result").addEventListener("click",e=>{
+  const again=e.target.closest("#restartButton");
+  if(again)startGame();
+ });
+});
